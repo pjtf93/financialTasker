@@ -1,13 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator, StackView } from '@react-navigation/stack';
+import Transactions from './Views/Transactions';
+import Add from './Views/Add';
+import User from './Views/User';
+
+import Amplify from 'aws-amplify';
+import config from './src/aws-exports';
+Amplify.configure(config);
 
 export default function App() {
+  const Stack = createStackNavigator();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Transactions} />
+        <Stack.Screen
+          name="Add"
+          component={Add}
+          options={{ title: 'Add transaction' }}
+        />
+        <Stack.Screen name="User" component={User} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
